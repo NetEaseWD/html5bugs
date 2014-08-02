@@ -1,18 +1,18 @@
 <!DOCTYPE HTML>
-<html lang="en-US" manifest="./manifest.appcache">
+<html lang="en-US" manifest="../manifest.appcache">
     
     <head>
         
         <meta charset="UTF-8">
-        <title>Introduction | 前端开发中的BUG</title>
+        <title>ios5下不支持bind函数 | 前端开发中的BUG</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <meta name="description" content="由于大家所作业务截然不同，各自为政的总结和解决自己遇到的bug效率是很低(甚至完全没有总结)，此仓库旨在提供一个统一的平台供大家讨论和总结日常Web开发中的bug。">
+        <meta name="description" content="">
         <meta name="generator" content="GitBook 0.5.5">
         <meta name="HandheldFriendly" content="true"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
         
     
     
@@ -26,11 +26,11 @@
     <body>
         
         
-<link rel="stylesheet" href="gitbook/style.css">
+<link rel="stylesheet" href="../gitbook/style.css">
 
 
         
-    <div class="book" data-github="NetEaseWD/html5bugs" data-level="0" data-basepath="." data-revision="1406953593193">
+    <div class="book" data-github="NetEaseWD/html5bugs" data-level="1.1" data-basepath=".." data-revision="1406953593193">
     <div class="book-header">
     <!-- Actions Left -->
     <a href="#" class="btn pull-left toggle-summary" aria-label="Toggle summary"><i class="fa fa-align-justify"></i></a>
@@ -85,7 +85,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-spinner fa-spin"></i>
-        <a href="./" >前端开发中的BUG</a>
+        <a href="../" >前端开发中的BUG</a>
     </h1>
 </div>
 
@@ -114,7 +114,7 @@
         
         
         <li>
-            <a href="https://github.com/NetEaseWD/html5bugs/edit/master/README.md" target="blank" class="contribute-link">Edit and Contribute</a>
+            <a href="https://github.com/NetEaseWD/html5bugs/edit/master/bugs/ios5-bind-undefined.md" target="blank" class="contribute-link">Edit and Contribute</a>
         </li>
         
 
@@ -128,7 +128,7 @@
         <li class="chapter " data-level="0" data-path="index.html">
             
                 
-                    <a href="./index.html">
+                    <a href="../index.html">
                         <i class="fa fa-check"></i>
                         
                          Introduction
@@ -151,7 +151,7 @@
         <li class="chapter " data-level="1.1" data-path="bugs/ios5-bind-undefined.html">
             
                 
-                    <a href="./bugs/ios5-bind-undefined.html">
+                    <a href="../bugs/ios5-bind-undefined.html">
                         <i class="fa fa-check"></i>
                         
                             <b>1.1.</b>
@@ -206,18 +206,44 @@
             <div class="page-wrapper" tabindex="-1">
                 <div class="book-progress">
     <div class="bar">
-        <div class="inner" style="width: 0%;min-width: 0%;"></div>
+        <div class="inner" style="width: 100%;min-width: 0%;"></div>
     </div>
     <div class="chapters">
     
-        <a href="./index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+        <a href="../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
     
-        <a href="./bugs/ios5-bind-undefined.html" title="ios5下不支持bind函数" class="chapter  " data-progress="1.1" style="left: 100%;"></a>
+        <a href="../bugs/ios5-bind-undefined.html" title="ios5下不支持bind函数" class="chapter done " data-progress="1.1" style="left: 100%;"></a>
     
     </div>
 </div>
 
                 <div class="page-inner">
+                
+                    <section class="normal" id="section-gitbook_3">
+                    
+                        <h1 id="ios5-bind-">ios5下不支持bind函数</h1>
+<ul>
+<li>issue: <a href="https://github.com/NetEaseWD/html5bugs/issues/5" target="_blank">https://github.com/NetEaseWD/html5bugs/issues/5</a></li>
+</ul>
+<h2 id="-">描述</h2>
+<p>ios5下safari 和 webview不支持bind函数</p>
+<h2 id="-">解决方案</h2>
+<p>手动添加一个shim</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">if</span>(!<span class="hljs-built_in">Function</span>.prototype.bind){
+<span class="hljs-keyword">var</span> slice = [].slice;
+<span class="hljs-built_in">Function</span>.prototype.bind = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>
+    <span class="hljs-keyword">var</span> fn = <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">var</span> preArgs = slice.call( <span class="hljs-built_in">arguments</span>, <span class="hljs-number">1</span> );
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>
+      <span class="hljs-keyword">var</span> args = preArgs.concat( slice.call( <span class="hljs-built_in">arguments</span> ) );
+      <span class="hljs-keyword">return</span> fn.apply( context, args );
+    }
+}
+}
+</code></pre>
+
+                    
+                    </section>
                 
                 </div>
             </div>
@@ -229,15 +255,15 @@
 </div>
 
         
-<script src="gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>
-<script src="gitbook/app.js"></script>
+<script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>
+<script src="../gitbook/app.js"></script>
 
     
     <script src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
     
-    <script src="gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    <script src="../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
     
 
 <script>
